@@ -1,5 +1,8 @@
 package com.demo.airpollutionapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -13,6 +16,10 @@ public class UserInfoDTO {
     private String role;
     private String status;
     private String loginId;
+    private String country;
+    private String state;
+    private String city;
+    private List<FavouriteDTO> favourites;
     
 	public UserInfoDTO() {
   	  
@@ -83,11 +90,44 @@ public class UserInfoDTO {
 		this.loginId = loginId;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public List<FavouriteDTO> getFavourites() {
+		return favourites;
+	}
+
+	public void setFavourites(List<FavouriteDTO> favourites) {
+		this.favourites = favourites;
+	}
+
 	@Override
 	public String toString() {
-		return "UserInfo [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId="
-				+ emailId + ", role=" + role + ", status=" + status + ", loginId=" + loginId + ", toString()=" + super.toString() + "]";
+		return "UserInfoDTO [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId="
+				+ emailId + ", role=" + role + ", status=" + status + ", loginId=" + loginId + ", country=" + country
+				+ ", state=" + state + ", city=" + city + ", favourites=" + favourites + ", toString()="
+				+ super.toString() + "]";
 	}
-    
-   
+
 }

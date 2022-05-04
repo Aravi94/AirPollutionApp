@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.airpollutionapp.exception.AirVisualException;
 import com.demo.airpollutionapp.exception.ResourceNotFoundException;
+import com.demo.airpollutionapp.model.Data;
 import com.demo.airpollutionapp.model.UserInfoDTO;
 import com.demo.airpollutionapp.service.AppService;
 
@@ -49,8 +51,8 @@ public class AppController implements ApplicationContextAware {
 	}
 	
 	@PostMapping("/user")
-	public UserInfoDTO createUser (@RequestBody UserInfoDTO userInput) {
-		return appService.createUser(userInput);
+	public UserInfoDTO createUser (@RequestBody UserInfoDTO userInfoInput) {
+		return appService.createUser(userInfoInput);
 	}
 	
 	@PutMapping("/user")
@@ -66,15 +68,45 @@ public class AppController implements ApplicationContextAware {
 	}
 	
 	@PostMapping("/user/activate")
-	public UserInfoDTO activateUser (@RequestBody UserInfoDTO userInput) 
+	public UserInfoDTO activateUser (@RequestBody UserInfoDTO userInfoInput) 
 			throws ResourceNotFoundException {
-		return appService.activateUser(userInput);
+		return appService.activateUser(userInfoInput, true);
 	}
 	
 	@PostMapping("/user/deactivate")
-	public UserInfoDTO deactivateUser (@RequestBody UserInfoDTO userInput) 
+	public UserInfoDTO deactivateUser (@RequestBody UserInfoDTO userInfoInput) 
 			throws ResourceNotFoundException {
-		return appService.deactivateUser(userInput);
+		return appService.activateUser(userInfoInput, false);
+	}
+	
+	@PostMapping("/countries")
+	public List<Data> getAllCountries(@RequestBody UserInfoDTO userInfoInput) 
+			throws AirVisualException, ResourceNotFoundException {
+		return appService.getAllCountries(userInfoInput);
+	}
+	
+	@PostMapping("/states")
+	public List<Data> getAllStates(@RequestBody UserInfoDTO userInfoInput) 
+			throws AirVisualException, ResourceNotFoundException {
+		return appService.getAllStates(userInfoInput);
+	}
+	
+	@PostMapping("/cities")
+	public List<Data> getAllCities(@RequestBody UserInfoDTO userInfoInput) 
+			throws AirVisualException, ResourceNotFoundException {
+		return appService.getAllCities(userInfoInput);
+	}
+	
+	@PostMapping("/favourite")
+	public Map<String, Boolean> addFavourite(@RequestBody UserInfoDTO userInfoInput) 
+			throws AirVisualException, ResourceNotFoundException {
+		return appService.addFavourite(userInfoInput);
+	}
+	
+	@GetMapping("/favourites/{userId}")
+	public UserInfoDTO getFavourites(@PathVariable(value = "userId") String userId) 
+			throws ResourceNotFoundException {
+		return appService.getFavourites(userId);
 	}
 	
 	@PostMapping("/shutdownContext")
