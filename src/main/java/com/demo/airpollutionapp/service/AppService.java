@@ -37,5 +37,5 @@ public interface AppService {
 	public abstract List<Data> getAllStates(UserInfoDTO userInfoInput) throws AirVisualException, ResourceNotFoundException;
 	public abstract List<Data> getAllCities(UserInfoDTO userInfoInput) throws AirVisualException, ResourceNotFoundException;
 	public abstract Map<String, Boolean> addFavourite(UserInfoDTO userInfoInput) throws AirVisualException, ResourceNotFoundException;
-	public abstract UserInfoDTO getFavourites(String userId) throws ResourceNotFoundException;
+	public abstract UserInfoDTO getFavourites(String userId) throws ResourceNotFoundException, AirVisualException;
 }

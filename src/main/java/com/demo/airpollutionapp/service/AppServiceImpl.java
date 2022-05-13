@@ -19,6 +19,7 @@ import com.demo.airpollutionapp.model.AirVisCityResponse;
 import com.demo.airpollutionapp.model.AirVisResponse;
 import com.demo.airpollutionapp.model.Data;
 import com.demo.airpollutionapp.model.Favourite;
+import com.demo.airpollutionapp.model.FavouriteDTO;
 import com.demo.airpollutionapp.model.Pollution;
 import com.demo.airpollutionapp.model.UserInfo;
 import com.demo.airpollutionapp.model.UserInfoDTO;
@@ -182,13 +183,33 @@ public class AppServiceImpl implements AppService{
 	}
 	
 	@Override
-	public UserInfoDTO getFavourites(String userId) throws ResourceNotFoundException {
+	public UserInfoDTO getFavourites(String userId) throws ResourceNotFoundException, AirVisualException {
 		checkStatus(userId);
 		List<Favourite> favouriteList = favouriteRepository.findByUserInfoUserId(userId);
 		if(favouriteList.isEmpty()) {
 			throw new ResourceNotFoundException(FAV_NOT_FOUND + userId);
 		}
-		return userMapper.favToDto(favouriteList);
+		UserInfoDTO response = userMapper.favToDto(favouriteList);
+		List<FavouriteDTO> favourites = response.getFavourites();
+		
+		Map<String, String> params = new HashMap<>();
+		params.put(API_KEY, airVisConfiguration.getFavApiKey());
+		
+		for (FavouriteDTO fav:favourites) {
+			params.put(COUNTRY, fav.getCountry());
+			params.put(STATE, fav.getState());
+			params.put(CITY, fav.getCity());
+			AirVisCityResponse airVisresponse = callAirVisualCityAPI(airVisConfiguration.getCityInfoUrl(), params);
+			String message = airVisresponse.getData().getMessage();
+			if (message != null && (message.contains("CALL_LIMIT_REACHED")
+					|| message.contains("TOO_MANY_REQUESTS"))) {
+				break;
+			}
+			Pollution pollution = airVisresponse.getData().getCurrent().getPollution();
+			fav.setAirQualityIndex(pollution.getAqius());
+			fav.setTimestamp(pollution.getTs());
+		}
+		return response;
 	}
 	
 	private void checkStatus(String userId) throws ResourceNotFoundException {

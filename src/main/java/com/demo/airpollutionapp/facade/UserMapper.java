@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.demo.airpollutionapp.model.Data;
 import com.demo.airpollutionapp.model.Favourite;
 import com.demo.airpollutionapp.model.FavouriteDTO;
-import com.demo.airpollutionapp.model.Pollution;
 import com.demo.airpollutionapp.model.UserInfo;
 import com.demo.airpollutionapp.model.UserInfoDTO;
 
@@ -45,8 +44,7 @@ public class UserMapper {
     }
     
     public Favourite toFavourite (UserInfo userInfo, Data data) {
-    	Pollution pollution = data.getCurrent().getPollution();
-    	Favourite favourite = new Favourite(data.getCountry(), data.getState(), data.getCity(), pollution.getAqius(), pollution.getTs());
+    	Favourite favourite = new Favourite(data.getCountry(), data.getState(), data.getCity());
     	favourite.setUserInfo(userInfo);
     	return favourite;
     }
@@ -55,8 +53,8 @@ public class UserMapper {
     	UserInfo userInfo = favouriteList.get(0).getUserInfo();
     	UserInfoDTO userInfoDto = new UserInfoDTO(userInfo.getUserId(), userInfo.getFirstName(), userInfo.getLastName(), userInfo.getEmailId(), userInfo.getRole(), userInfo.getStatus());
     	List<FavouriteDTO> favourites = favouriteList.stream()
-    			.map(fav -> new FavouriteDTO(fav.getCountry(), fav.getState(), fav.getCity(),
-    					fav.getAirQualityIndex(), fav.getTimestamp())).collect(Collectors.toList());
+    			.map(fav -> new FavouriteDTO(fav.getCountry(), fav.getState(), fav.getCity()))
+    			.collect(Collectors.toList());
     	userInfoDto.setFavourites(favourites);
     	return userInfoDto;
     }

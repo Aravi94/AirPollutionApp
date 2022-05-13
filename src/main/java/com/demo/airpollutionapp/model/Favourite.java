@@ -21,30 +21,24 @@ public class Favourite {
     private String country;
     private String state;
     private String city;
-    private String airQualityIndex;
-    private String timestamp;
     private UserInfo userInfo;
     
 	public Favourite() {
   	  
     }
     
-    public Favourite(long index, String country, String state, String city, String airQualityIndex, String timestamp, UserInfo userInfo) {
+    public Favourite(long index, String country, String state, String city, UserInfo userInfo) {
     	this.index = index;
         this.country = country;
         this.state = state;
         this.city = city;
-        this.airQualityIndex = airQualityIndex;
-        this.timestamp = timestamp;
         this.userInfo = userInfo;
     }
     
-    public Favourite(String country, String state, String city, String airQualityIndex, String timestamp) {
+    public Favourite(String country, String state, String city) {
         this.country = country;
         this.state = state;
         this.city = city;
-        this.airQualityIndex = airQualityIndex;
-        this.timestamp = timestamp;
     }
     
     @Id
@@ -85,24 +79,6 @@ public class Favourite {
 		this.city = city;
 	}
 
-	@Column(name = "air_quality_index", nullable = false)
-	public String getAirQualityIndex() {
-		return airQualityIndex;
-	}
-
-	public void setAirQualityIndex(String airQualityIndex) {
-		this.airQualityIndex = airQualityIndex;
-	}
-
-	@Column(name = "timestamp", nullable = false)
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -117,7 +93,7 @@ public class Favourite {
 	@Override
 	public String toString() {
 		return "Favourite [index=" + index + ", country=" + country + ", state=" + state
-				+ ", city=" + city + ", airQualityIndex=" + airQualityIndex + ", timestamp=" + timestamp + ", userInfo="
+				+ ", city=" + city + ", userInfo="
 				+ userInfo + ", toString()=" + super.toString() + "]";
 	}
    

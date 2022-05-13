@@ -105,7 +105,7 @@ public class AppController implements ApplicationContextAware {
 	
 	@GetMapping("/favourites/{userId}")
 	public UserInfoDTO getFavourites(@PathVariable(value = "userId") String userId) 
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, AirVisualException {
 		return appService.getFavourites(userId);
 	}
 	

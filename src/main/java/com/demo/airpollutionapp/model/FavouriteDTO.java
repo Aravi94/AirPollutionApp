@@ -19,6 +19,12 @@ public class FavouriteDTO {
         this.airQualityIndex = airQualityIndex;
         this.timestamp = timestamp;
     }
+    
+    public FavouriteDTO(String country, String state, String city) {
+        this.country = country;
+        this.state = state;
+        this.city = city;
+    }
 
 	public String getCountry() {
 		return country;
